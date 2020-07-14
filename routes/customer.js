@@ -1,27 +1,7 @@
-const Joi = require('joi');
+const { Customer, validateCustomer } = require('../models/customer');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
-
-const Customer = mongoose.model('Customer', new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        minlength: 5,
-        maxlength: 50
-    },
-    phone: {
-        type: String,
-        reuired: true,
-        minlength: 5,
-        maxlength: 50
-    },
-    isGold: {
-        type: Boolean,
-        default: false
-    }
-}));
-
 
 //getting all the customers
 router.get('/', async (req, res) => {
@@ -79,14 +59,4 @@ router.get('/:id', async (req, res) => {
     res.send(customer);
 });
 
-//function for validating the customer name
-function validateCustomer(customer) {
-    const schema = {
-        name: Joi.string().required().min(5).max(50),
-        phone: Joi.string().required().min(5).max(50),
-        isGold: Joi.boolean()
-    };
-
-    return Joi.validate(customer, schema);
-}
 module.exports = router;

@@ -17,8 +17,8 @@ router.post('/', async (req, res) => {
 
     let customer = new Customer({
         name: req.body.name,
-        phone: req.body.phone,
-        isGold: req.body.isGold
+        isGold: req.body.isGold,
+        phone: req.body.phone
     });
     customer = await customer.save();
     res.send(customer);
@@ -32,8 +32,8 @@ router.put('/:id', async (req, res) => {
     const customer = await Customer.findByIdAndUpdate(req.params.id,
         {
             name: req.body.name,
-            phone: req.body.phone,
-            isGold: req.body.isGold
+            isGold: req.body.isGold,
+            phone: req.body.phone
         }, { new: true });
 
     if (!customer) return res.status(404).send('The requested id for customer doesnot exists');

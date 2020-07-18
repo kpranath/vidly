@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
+const { Genre } = require('../models/genres');
 const { Movies, validateMovies } = require('../models/movies');
 
 
@@ -28,7 +29,7 @@ router.post('/', async (req, res) => {
             name: genre.name
         }
     });
-    movies = await Movies.save();
+    movies = await movies.save();
     res.send(movies);
 });
 

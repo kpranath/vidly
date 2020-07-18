@@ -1,4 +1,4 @@
-const { Rental, validateRental } = require('../models/rental');
+const { Rentals, validateRental } = require('../models/rental');
 const mongoose = require('mongoose');
 const express = require('express');
 const Fawn = require('fawn');
@@ -10,7 +10,7 @@ Fawn.init(mongoose);
 
 //getting all the rentals
 router.get('/', async (req, res) => {
-    const rentals = await Renatl.find().sort('-dateOut ');
+    const rentals = await Rentals.find().sort('-dateOut ');
     res.send(rentals);
 });
 
@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
 
     if (movie.numberInStock === 0) return res.status(400).send('Movie outofStock');
 
-    let rental = new Rental({
+    let rental = new Rentals({
         customer: {
             _id: customer._id,
             name: customer.name,

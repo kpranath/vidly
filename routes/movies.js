@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
     let movies = new Movies({
         title: req.body.title,
         numberInStock: req.body.numberInStock,
-        dailyRentalRate: req.body.dilyRentalRate,
+        dailyRentalRate: req.body.dailyRentalRate,
         genre: {
             _id: genre._id,
             name: genre.name

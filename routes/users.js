@@ -9,14 +9,14 @@ router.post('/', async (req, res) => {
     const { error } = validateUser(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const eMail = req.body.email;
-    if (!eMail.includes("@") || !eMail.includes(".")) return res.status(400).send('Invalid email...');
+    let user = await User.findOne({ email: req.body.email });
+    if (user) return res.status(400).send('User already exists...');
 
     const passWord = sha256(req.body.password);
 
-    const user = new User({
+    user = new User({
         name: req.body.name,
-        email: eMail,
+        email: req.body.email,
         password: passWord
     });
 

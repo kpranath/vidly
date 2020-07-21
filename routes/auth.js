@@ -19,7 +19,8 @@ router.post('/', async (req, res) => {
 
     const accessToken = jwt.sign({
         _id: user._id,
-        name: user.name
+        name: user.name,
+        email: user.email
     }, 'jwtPrivateKey');
 
     res.send(accessToken);

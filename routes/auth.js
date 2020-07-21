@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const config = require('config');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const { User } = require('../models/users');
@@ -21,7 +22,7 @@ router.post('/', async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email
-    }, 'jwtPrivateKey');
+    }, config.get(jwtPrivateKey));
 
     res.send(accessToken);
 

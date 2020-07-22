@@ -1,9 +1,16 @@
 const _ = require('lodash');
 const { User, validateUser } = require('../models/users');
+const auth = require('../middleware/auth');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const sha256 = require('sha256');
+
+//getting current user
+router.get('/me', auth, async (req, res) => {
+    const user = req.user;
+    res.send(user);
+});
 
 // creating a new user
 router.post('/', async (req, res) => {

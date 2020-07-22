@@ -18,14 +18,16 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+    isAdmin: Boolean
 });
 
 userSchema.methods.generateAuthToken = function () {
     const accessToken = jwt.sign({
         _id: this._id,
         name: this.name,
-        email: this.email
+        email: this.email,
+        isAdmin: this.isAdmin
     }, /*config.get(jwtPrivateKey)*/'myPrivateKey');
     return accessToken;
 }

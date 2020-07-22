@@ -1,6 +1,7 @@
 const { Rentals, validateRental } = require('../models/rental');
 const mongoose = require('mongoose');
 const express = require('express');
+const auth = require('../middleware/auth');
 const Fawn = require('fawn');
 const { Customer } = require('../models/customer');
 const { Movies } = require('../models/movies');
@@ -15,7 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 //creating a new rental
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const { error } = validateRental(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 

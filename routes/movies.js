@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const express = require('express');
+const auth = require('../middleware/auth');
 const router = express.Router();
 const { Genre } = require('../models/genres');
 const { Movies, validateMovies } = require('../models/movies');
@@ -12,7 +13,7 @@ router.get('/', async (req, res) => {
 });
 
 //creating a new movie
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
     const { error } = validateMovies(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -34,7 +35,7 @@ router.post('/', async (req, res) => {
 });
 
 //deleting the given Movies
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     const movies = await Movies.findByIdAndRemove(req.params.id);
 
     if (!movies) return res.status(404).send('The requestd id for Movies doesnot exists');

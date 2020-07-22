@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const config = require('config');
-const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const { User } = require('../models/users');
 const mongoose = require('mongoose');
@@ -18,11 +17,7 @@ router.post('/', async (req, res) => {
 
     if (sha256(req.body.password) !== user.password) return res.status(400).send('Invalid email or password...');
 
-    const accessToken = jwt.sign({
-        _id: user._id,
-        name: user.name,
-        email: user.email
-    }, config.get(jwtPrivateKey));
+    const accessToken = user.generateAuthToken();
 
     res.send(accessToken);
 

@@ -1,19 +1,20 @@
 const _ = require('lodash');
 const { User, validateUser } = require('../models/users');
 const auth = require('../middleware/auth');
+const asyncMiddleware = require('../middleware/async');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const sha256 = require('sha256');
 
 //getting current user
-router.get('/me', auth, async (req, res) => {
+router.get('/me', auth, asyncMiddleware(async (req, res) => {
     const user = req.user;
     res.send(user);
-});
+}));
 
 // creating a new user
-router.post('/', async (req, res) => {
+router.post('/', asyncMiddleware(async (req, res) => {
     const { error } = validateUser(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -30,6 +31,6 @@ router.post('/', async (req, res) => {
 
     res.header('x-auth-token', accessToken).send(_.pick(user, ['_id', 'name', 'email']));
 
-});
+}));
 
 module.exports = router;

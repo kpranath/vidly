@@ -2,16 +2,17 @@ const { Customer, validateCustomer } = require('../models/customer');
 const mongoose = require('mongoose');
 const express = require('express');
 const auth = require('../middleware/auth');
+const asyncMiddleware = require('../middleware/async');
 const router = express.Router();
 
 //getting all the customers
-router.get('/', async (req, res) => {
+router.get('/', asyncMiddleware(async (req, res) => {
     const customers = await Customer.find().sort('name');
     res.send(customers);
-});
+}));
 
 //creating a new customer
-router.post('/', auth, async (req, res) => {
+router.post('/', auth, asyncMiddleware(async (req, res) => {
 
     const { error } = validateCustomer(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -23,10 +24,10 @@ router.post('/', auth, async (req, res) => {
     });
     await customer.save();
     res.send(customer);
-});
+}));
 
 //updating a given customer
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', auth, asyncMiddleware(async (req, res) => {
     const { error } = validateCustomer(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -40,24 +41,24 @@ router.put('/:id', auth, async (req, res) => {
     if (!customer) return res.status(404).send('The requested id for customer doesnot exists');
 
     res.send(customer);
-});
+}));
 
 //deleting the given customer
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', auth, asyncMiddleware(async (req, res) => {
     const customer = await Customer.findByIdAndRemove(req.params.id);
 
     if (!customer) return res.status(404).send('The requestd id for customer doesnot exists');
 
     res.send(customer);
-});
+}));
 
 //Getting a specific customer by id
-router.get('/:id', async (req, res) => {
+router.get('/:id', asyncMiddleware(async (req, res) => {
     const customer = await Customer.findById(req.params.id);
 
     if (!customer) return res.status(404).send('The requested id for customer doesnot exists');
 
     res.send(customer);
-});
+}));
 
 module.exports = router;

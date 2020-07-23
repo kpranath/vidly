@@ -2,13 +2,14 @@ const _ = require('lodash');
 const config = require('config');
 const Joi = require('joi');
 const { User } = require('../models/users');
+const asyncMiddleware = require('../middleware/async');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const sha256 = require('sha256');
 
 // creating a new user
-router.post('/', async (req, res) => {
+router.post('/', asyncMiddleware(async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -21,7 +22,7 @@ router.post('/', async (req, res) => {
 
     res.send(accessToken);
 
-});
+}));
 
 function validate(req) {
     const Schema = {

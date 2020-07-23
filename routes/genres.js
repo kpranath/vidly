@@ -7,8 +7,15 @@ const router = express.Router();
 
 //getting all the genres
 router.get('/', async (req, res) => {
-    const genres = await Genre.find().sort('name');
-    res.send(genres);
+    try {
+        const genres = await Genre.find().sort('name');
+        res.send(genres);
+    }
+    catch (ex) {
+        res.status(500).send('something falied...');
+    }
+    // const genres = await Genre.find().sort('name');
+    // res.send(genres);
 });
 
 //creating a new genre

@@ -21,7 +21,14 @@ router.post('/', asyncMiddleware(async (req, res) => {
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('User already exists...');
 
-    user = new User(_.pick(req.body, ['name', 'email', 'password']));
+    user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        isAdmin: req.body.isAdmin
+    });
+
+    // user = new User(_.pick(req.body, ['name', 'email', 'password', isAdmin]));
 
     user.password = sha256(user.password);
 
@@ -29,7 +36,7 @@ router.post('/', asyncMiddleware(async (req, res) => {
 
     const accessToken = user.generateAuthToken();
 
-    res.header('x-auth-token', accessToken).send(_.pick(user, ['_id', 'name', 'email']));
+    res.header('x-auth-token', accessToken).send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
 
 }));
 

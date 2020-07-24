@@ -7,10 +7,10 @@ const admin = require('../middleware/admin');
 const asyncMiddleware = require('../middleware/async');
 
 //getting all the genres
-router.get('/', asyncMiddleware(async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     const genres = await Genre.find().sort('name');
     res.send(genres);
-}));
+});
 
 //creating a new genre
 router.post('/', auth, asyncMiddleware(async (req, res) => {

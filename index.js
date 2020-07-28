@@ -1,6 +1,8 @@
 require('express-async-errors');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
+const winston = require('winston');
+// require('winston-mongodb');
 const mongoose = require('mongoose');
 const config = require('config');
 const express = require('express');
@@ -12,6 +14,9 @@ const movies = require('./routes/movies');
 const rentals = require('./routes/rental');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
+
+winston.add(winston.transports.File, { filename: 'logfile.log' });
+// winston.add(winston.transports.MongoDB, {db : 'mongodb://localhost/vidly' });
 
 // enable this code when envi vae is set
 // if (!config.get('jwtPrivateKey')) {

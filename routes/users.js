@@ -13,6 +13,13 @@ router.get('/me', auth, asyncMiddleware(async (req, res) => {
     res.send(user);
 }));
 
+//getting list of users
+router.get('/', asyncMiddleware(async (req, res) => {
+    const users = await User.find().sort('name');;
+    // res.send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
+    rs.send(users);
+}));
+
 // creating a new user
 router.post('/', asyncMiddleware(async (req, res) => {
     const { error } = validateUser(req.body);

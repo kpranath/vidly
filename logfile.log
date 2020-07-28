@@ -1,0 +1,1 @@
+{"message":"rs is not defined","stack":"ReferenceError: rs is not defined\n    at router.get.asyncMiddleware (C:\\Users\\Lenovo\\Desktop\\Projects\\vidly\\routes\\users.js:20:5)","level":"error","timestamp":"2020-07-28T18:00:36.461Z"}

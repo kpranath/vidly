@@ -17,7 +17,7 @@ router.get('/me', auth, asyncMiddleware(async (req, res) => {
 router.get('/', asyncMiddleware(async (req, res) => {
     const users = await User.find().sort('name');;
     // res.send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
-    rs.send(users);
+    res.send(users);
 }));
 
 // creating a new user

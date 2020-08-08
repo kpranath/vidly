@@ -15,6 +15,10 @@ const rentals = require('./routes/rental');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 
+winston.handleExceptions(
+    new winston.transports.File({ filename: 'logfile.log' })
+);
+
 process.on('uncaughtException', (ex) => {
     console.log('We got an exception');
     winston.error(ex.message, ex);
